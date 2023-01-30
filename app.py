@@ -28,13 +28,29 @@ def index():
         first_name_results = cursor.fetchone()
         firstName = str(first_name_results).replace(',', '').replace('(','').replace(')','').replace("'","")
 
+        last_name = "SELECT last_name from user where user_name = '" +user_name+ "'  and password =  '" +password+ "' and email is not null"
+        cursor.execute(last_name)
+        last_name_results = cursor.fetchone()
+        lastName = str(last_name_results).replace(',', '').replace('(','').replace(')','').replace("'","")
+
+        position = "SELECT position from user where user_name = '" +user_name+ "'  and password =  '" +password+ "' and email is not null"
+        cursor.execute(position)
+        position_results = cursor.fetchone()
+        userPosition = str(position_results).replace(',', '').replace('(','').replace(')','').replace("'","")
+
+        email = "SELECT email from user where user_name = '" +user_name+ "'  and password =  '" +password+ "' and email is not null"
+        cursor.execute(email)
+        email_results = cursor.fetchone()
+        userEmail = str(email_results).replace(',', '').replace('(','').replace(')','').replace("'","")
+
         user_id_result = cursor.fetchone()
         userIdResult = str(user_id_result).replace(',','')
 
         if len(results) == 0:
             print("Incorrect Credentials Entered. Please Try Again")
+            return render_template('accountNotFound.html')
         else:
-            return render_template('profile.html', first_name = firstName)
+            return render_template('profile.html', first_name = firstName, last_name = lastName, user_name = user_name, email = userEmail, position = userPosition)
 
     return render_template('index.html')
 
