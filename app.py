@@ -3,6 +3,34 @@ import sqlite3
 
 app = Flask(__name__)
 
+connection = sqlite3.connect('SKMSDB.db')
+threat_cursor = connection.cursor()
+
+threats_return = []
+threats_query = "select threatname from threats"
+threat_cursor.execute(threats_query)
+for threatname in threat_cursor:
+    threats_return.append(str(threatname).replace("(", "").replace(")", "").replace(",", "").replace("'", ""))
+print(threats_return)
+print(len(threats_return))
+threats_length = len(threats_return)
+
+counter_measure_cursor = connection.cursor()
+
+cm_return = []
+cm_posted_by = []
+cm_posted_date = []
+cm_query = "select countermeasurename, posted_by, posted_date from countermeasures"
+counter_measure_cursor.execute(cm_query)
+for countermeasurename, posted_by, posted_date in counter_measure_cursor:
+    cm_return.append(str(countermeasurename).replace("(", "").replace(")", "").replace(",", "").replace("'", ""))
+    cm_posted_by.append(str(posted_by).replace("(", "").replace(")", "").replace(",", "").replace("'", ""))
+    cm_posted_date.append(str(posted_date).replace("(", "").replace(")", "").replace(",", "").replace("'", ""))
+#print(cm_return)
+#print(len(cm_return))
+cm_length = len(cm_return)
+
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -50,7 +78,7 @@ def index():
             print("Incorrect Credentials Entered. Please Try Again")
             return render_template('accountNotFound.html')
         else:
-            return render_template('profile.html', first_name = firstName, last_name = lastName, user_name = user_name, email = userEmail, position = userPosition)
+            return render_template('profile.html', first_name = firstName, last_name = lastName, user_name = user_name, email = userEmail, position = userPosition, threats = threats_return, threatsLength = threats_length, cmReturn = cm_return, cmLength = cm_length, cmPostedBy = cm_posted_by, cmPostedDate = cm_posted_date)
 
     return render_template('index.html')
 
