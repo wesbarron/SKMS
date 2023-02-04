@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
 
 app = Flask(__name__)
@@ -118,3 +118,8 @@ def createAccount():
 
 
     return render_template('createAccount.html')
+
+
+@app.route('/askQuestion')
+def askQuestion():
+    return render_template('askQuestion.html')
