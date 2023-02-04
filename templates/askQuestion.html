@@ -8,7 +8,28 @@
 {% block body %}
           
 <div class="container">
-    <h1>Ask Question</h1>
+    <form action="{{ url_for('createQuestion', userId=user_id, subject=subject, title=title, body=body) }}" method="post">
+        <div class="form-group">
+            <label for="subject">User:</label>
+            
+            <input type="hidden" value={{user_id}} name="userId"/>
+          </div>
+        <div class="form-group">
+            <label for="subject">Subject:</label>
+            <select name="subject">
+                <option value="" id="none-option">Select an option: </option>
+            </select>
+          </div>
+        <div class="form-group">
+          <label for="title">Title:</label>
+          <input type="text" class="form-control" id="title" name="title">
+        </div>
+        <div class="form-group">
+          <label for="body">Body:</label>
+          <textarea class="form-control" id="body" name="body"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Create Post</button>
+      </form>
 </div>
 
 {% endblock %}

@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
+import re
 
 app = Flask(__name__)
 
@@ -50,6 +51,8 @@ def index():
 
         user_id = "SELECT id from user where user_name = '" +user_name+ "'  and password =  '" +password+ "'"
         cursor.execute(user_id)
+        user_id_result = cursor.fetchone()
+        userId = str(user_id_result).replace(',', '').replace('(','').replace(')','').replace("'","")
 
         first_name = "SELECT first_name from user where user_name = '" +user_name+ "'  and password =  '" +password+ "' and email is not null"
         cursor.execute(first_name)
@@ -71,14 +74,13 @@ def index():
         email_results = cursor.fetchone()
         userEmail = str(email_results).replace(',', '').replace('(','').replace(')','').replace("'","")
 
-        user_id_result = cursor.fetchone()
-        userIdResult = str(user_id_result).replace(',','')
+        
 
         if len(results) == 0:
             print("Incorrect Credentials Entered. Please Try Again")
             return render_template('accountNotFound.html')
         else:
-            return render_template('profile.html', first_name = firstName, last_name = lastName, user_name = user_name, email = userEmail, position = userPosition, threats = threats_return, threatsLength = threats_length, cmReturn = cm_return, cmLength = cm_length, cmPostedBy = cm_posted_by, cmPostedDate = cm_posted_date)
+            return render_template('profile.html', user_id = userId, first_name = firstName, last_name = lastName, user_name = user_name, email = userEmail, position = userPosition, threats = threats_return, threatsLength = threats_length, cmReturn = cm_return, cmLength = cm_length, cmPostedBy = cm_posted_by, cmPostedDate = cm_posted_date)
 
     return render_template('index.html')
 
@@ -120,6 +122,32 @@ def createAccount():
     return render_template('createAccount.html')
 
 
-@app.route('/askQuestion')
-def askQuestion():
-    return render_template('askQuestion.html')
+@app.route('/askQuestion/<user_id>', methods=['GET', 'POST'])
+def askQuestion(user_id):
+
+    
+
+    
+    return render_template('askQuestion.html', user_id=user_id)
+
+@app.route("/createQuestion", methods=["GET", "POST"])
+def createQuestion():
+    if request.method == "POST":
+        user_id = request.form.get("userId")
+        subject = request.form.get("subject")
+        title = request.form.get("title")
+        body = request.form.get("body")
+        print("Userid: " + user_id + " Subject: " + subject + " Title: " + title + " Body: " + body)
+        
+        connection = sqlite3.connect('SKMS.db')
+        cursor = connection.cursor()
+            
+        insert_record = "INSERT INTO question(userId, subject, title, body) VALUES('"+user_id+"','"+subject+"', '"+title+"','"+body+"')"
+        cursor.execute(insert_record)
+        connection.commit()
+
+        return render_template("askQuestion.html", user_id=user_id)
+
+    # Handle GET requests
+    # ...
+    return render_template("createQuestion.html")
