@@ -31,6 +31,7 @@ for countermeasurename, posted_by, posted_date in counter_measure_cursor:
 #print(len(cm_return))
 cm_length = len(cm_return)
 
+#threats = threats_return, threatsLength = threats_length, cmReturn = cm_return, cmLength = cm_length, cmPostedBy = cm_posted_by, cmPostedDate = cm_posted_date
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -80,11 +81,14 @@ def index():
             print("Incorrect Credentials Entered. Please Try Again")
             return render_template('accountNotFound.html')
         else:
-            return render_template('profile.html', user_id = userId, first_name = firstName, last_name = lastName, user_name = user_name, email = userEmail, position = userPosition, threats = threats_return, threatsLength = threats_length, cmReturn = cm_return, cmLength = cm_length, cmPostedBy = cm_posted_by, cmPostedDate = cm_posted_date)
+            return render_template('profile.html', user_id = userId, first_name = firstName, last_name = lastName, user_name = user_name, email = userEmail, position = userPosition)
 
     return render_template('index.html')
 
-@app.route('/createAccount.html', methods=['GET', 'POST'])
+
+
+
+@app.route('/createAccount', methods=['GET', 'POST'])
 def createAccount():
     if request.method == 'POST':
 
@@ -121,12 +125,40 @@ def createAccount():
 
     return render_template('createAccount.html')
 
+@app.route('/profile/<user_id>', methods=['GET', 'POST'])
+def profile(user_id):
+    connection = sqlite3.connect('SKMS.db')
+    cursor = connection.cursor()
+    query = "SELECT user_name FROM user where id = '" +user_id + "'"
+    cursor.execute(query)
+    user_name_results = cursor.fetchone()
+    user_name = str(user_name_results).replace(',', '').replace('(','').replace(')','').replace("'","")
+
+    results = cursor.fetchall()
+
+    first_name = "SELECT first_name FROM user where id = '" +user_id + "'"
+    cursor.execute(first_name)
+    first_name_results = cursor.fetchone()
+    firstName = str(first_name_results).replace(',', '').replace('(','').replace(')','').replace("'","")
+
+    last_name = "SELECT last_name FROM user where id = '" +user_id + "'"
+    cursor.execute(last_name)
+    last_name_results = cursor.fetchone()
+    lastName = str(last_name_results).replace(',', '').replace('(','').replace(')','').replace("'","")
+
+    position = "SELECT position FROM user where id = '" +user_id + "'"
+    cursor.execute(position)
+    position_results = cursor.fetchone()
+    userPosition = str(position_results).replace(',', '').replace('(','').replace(')','').replace("'","")
+
+    email = "SELECT email FROM user where id = '" +user_id + "'"
+    cursor.execute(email)
+    email_results = cursor.fetchone()
+    userEmail = str(email_results).replace(',', '').replace('(','').replace(')','').replace("'","")
+    return render_template('profile.html', user_id = user_id, first_name = firstName, last_name = lastName, user_name = user_name, email = userEmail, position = userPosition)
 
 @app.route('/askQuestion/<user_id>', methods=['GET', 'POST'])
 def askQuestion(user_id):
-
-    
-
     
     return render_template('askQuestion.html', user_id=user_id)
 
@@ -146,8 +178,12 @@ def createQuestion():
         cursor.execute(insert_record)
         connection.commit()
 
-        return render_template("askQuestion.html", user_id=user_id)
+        return redirect(url_for('forums', user_id=user_id))
 
     # Handle GET requests
     # ...
     return render_template("createQuestion.html")
+
+@app.route("/forums/<user_id>", methods=["GET", "POST"])
+def forums(user_id):
+    return render_template("forums.html", user_id=user_id, threats = threats_return, threatsLength = threats_length, cmReturn = cm_return, cmLength = cm_length, cmPostedBy = cm_posted_by, cmPostedDate = cm_posted_date)
