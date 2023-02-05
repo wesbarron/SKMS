@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/css/dist/mdb5/standard/core.min.css">
+    <link rel="stylesheet" id="roboto-subset.css-css" href="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/css/mdb5/fonts/roboto-subset.css?ver=3.9.0-update.5" type="text/css" media="all">
+    <title>Blogs</title>
+</head>
+
+  </section><link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
+  <div class="container">
+        <div class="row">
+          <!-- Main content -->
+          <div class="col-lg-9 mb-3">
+            <div class="row text-left mb-5">
+              <div class="col-lg-6 mb-3 mb-sm-0">
+                <div class="dropdown bootstrap-select form-control form-control-lg bg-white bg-op-9 text-sm w-lg-50" style="width: 100%;">
+                  <form method="POST">
+                      <select onchange="this.form.submit();" name="assetName" id="assetOptions" class="form-control form-control-lg bg-white bg-op-9 text-sm w-lg-50" data-toggle="select" tabindex="-98">
+                        <option default value="{{ assetName }}">{{ assetName }}</option>
+                        {%for i in range(0, assetLength)%}
+                          <option name="assetValue">{{ assets[i] }}</option>
+                        {%endfor%}
+                      </select>
+                    </div>
+                    </div>
+                    <div class="col-lg-6 text-lg-right">
+                    <div class="dropdown bootstrap-select form-control form-control-lg bg-white bg-op-9 ml-auto text-sm w-lg-50" style="width: 100%;">
+                        <select onchange="this.form.submit();" name="vulnerabilityName" id="vulnerabilityOptions" class="form-control form-control-lg bg-white bg-op-9 ml-auto text-sm w-lg-50" data-toggle="select" tabindex="-98">
+                            <option default value="{{ vulnerabilityName }}">{{ vulnerabilityName }}</option>
+                            {%for i in range(0, vulnerabilityLength)%}
+                              <option name="vulnerabilityValue">{{ vulnerability[i] }}</option>
+                            {%endfor%}
+                        </select>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <!-- End of post 1 -->
+            {%for i in range(0, threatReturnLength)%}
+              <div class="card row-hover pos-relative py-3 px-3 mb-3 border-warning border-top-0 border-right-0 border-bottom-0 rounded-0">
+                <div class="row align-items-center">
+                  <div class="col-md-8 mb-3 mb-sm-0">
+                    <h5>
+                      <a href="#" class="text-primary">{{ threatReturnValue[i] }}</a>
+                    </h5>
+                    <p class="text-sm"><span class="op-6">Posted</span> <a class="text-black" href="#">{{ cmPostedDate[i] }}</a> <span class="op-6">by</span> <a class="text-black" href="#">{{ cmPostedBy[i] }}</a></p>
+                    <div class="text-sm op-5"> <a class="text-black mr-2" href="#">#C++</a> <a class="text-black mr-2" href="#">#AppStrap Theme</a> <a class="text-black mr-2" href="#">#Wordpress</a> </div>
+                  </div>
+                  <div class="col-md-4 op-7">
+                    <div class="row text-center op-7">
+                      <div class="col px-1"> <i class="ion-connection-bars icon-1x"></i> <span class="d-block text-sm">141 Votes</span> </div>
+                      <div class="col px-1"> <i class="ion-ios-chatboxes-outline icon-1x"></i> <span class="d-block text-sm">122 Replys</span> </div>
+                      <div class="col px-1"> <i class="ion-ios-eye-outline icon-1x"></i> <span class="d-block text-sm">290 Views</span> </div>
+                    </div>
+                  </div>
+                </div>
+              </div> 
+              <!-- /End of post 1 -->
+            {%endfor%}
+            
+          </div>
+        </div>
+      </div>
+
+      <script>
+            
+            // let threatValue = document.getElementById("threatOptions").value;
+            // function getThreatValue(){
+            //     threatValue.form.submit();
+            // }
+      </script>
+
+</html>
+
+
