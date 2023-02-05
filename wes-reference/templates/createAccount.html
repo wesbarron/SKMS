@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Creation</title>
+</head>
+<body>
+<center>
+<h1>Account Creation</h1>
+    <form method="POST" onsubmit="return !!(validatePassword())"">
+        <br><br>
+        <input type="name" name="first_name" placeholder="First Name" required>
+        <br><br>
+        <input type="name" name="last_name" placeholder="Last Name" required>
+        <br><br>
+        <input type="email" name="email" placeholder="Email" required>
+        <br><br>
+        <input type="name" name="user_name" placeholder="User Name" required>
+        <br><br>
+        <input id="password" type="password" name="password" placeholder="Password" onblur="passwordLength()" required>
+        <br><br>
+        <input id="verify_password" type="password" name="verify_password" placeholder="Re-enter Password" required>
+        <br><br>
+        <input type="submit" name="submit">
+        <p class="text-center text-muted mt-5 mb-0">Have an account already? <a href="/"
+            class="fw-bold text-body"><u>Login here</u></a></p>
+    </form>
+    
+</center>            
+
+<script>
+    function validatePassword(){
+        password_value = document.getElementById("password").value;
+        verify_password_value = document.getElementById("verify_password").value;
+        if(password_value != verify_password_value){
+            alert("Password values do not match!");
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+    function passwordLength(){
+        password_value = document.getElementById("password").value.length;
+        //verify_password_value = document.getElementById("verify_password").value;
+        if(password_value < 8){
+            alert("Password must be at least 8 characters in length!");
+            return false;
+        } 
+    }
+</script>
+</body>
+</html>
