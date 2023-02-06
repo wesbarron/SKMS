@@ -4,65 +4,8 @@ import re
 
 app = Flask(__name__)
 
-connection = sqlite3.connect('SKMSDB.db')
 
-#Asset dropdown section
-asset_cursor = connection.cursor()
-asset_return = []
-asset_groups = []
-asset_query = "select asset_name, asset_group from asset"
-asset_cursor.execute(asset_query)
-for asset_name, asset_group in asset_cursor:
-    asset_return.append(str(asset_name).replace("(", "").replace(")", "").replace(",", "").replace("'", ""))
-    asset_groups.append(str(asset_group).replace("(", "").replace(")", "").replace(",", "").replace("'", ""))
-#print(threats_return)
-#print(len(threats_return))
-asset_length = len(asset_return)
 
-#Vulnerability dropdown section
-vulnerability_cursor = connection.cursor()
-vulnerability_return = []
-vulnerability_groups = []
-vulnerability_query = "select vulnerability_name, vulnerability_group from vulnerability"
-vulnerability_cursor.execute(vulnerability_query)
-for vulnerability_name, vulnerability_group in vulnerability_cursor:
-    vulnerability_return.append(str(vulnerability_name).replace("(", "").replace(")", "").replace(",", "").replace("'", ""))
-    vulnerability_groups.append(str(vulnerability_group).replace("(", "").replace(")", "").replace(",", "").replace("'", ""))
-#print(threats_return)
-#print(len(threats_return))
-vulnerability_length = len(vulnerability_return)
-
-#Threat blog section
-threat_cursor = connection.cursor()
-threats_return = []
-threats_group = []
-threats_query = "select threat_name, threat_group from threat"
-threat_cursor.execute(threats_query)
-for threat_name, threat_group in threat_cursor:
-    threats_return.append(str(threat_name).replace("(", "").replace(")", "").replace(",", "").replace("'", ""))
-    threats_group.append(str(threat_group).replace("(", "").replace(")", "").replace(",", "").replace("'", ""))
-#print(threats_return)
-#print(len(threats_return))
-threats_length = len(threats_return)
-
-#Countermeasure blog section
-counter_measure_cursor = connection.cursor()
-cm_return = []
-cm_value = []
-cm_posted_by = []
-cm_posted_date = []
-cm_query = "select countermeasurename, posted_by, posted_date, threatid from countermeasures"
-counter_measure_cursor.execute(cm_query)
-for countermeasurename, posted_by, posted_date, threatid in counter_measure_cursor:
-    cm_return.append(str(countermeasurename).replace("(", "").replace(")", "").replace(",", "").replace("'", ""))
-    cm_value.append(str(threatid).replace("(", "").replace(")", "").replace(",", "").replace("'", ""))
-    cm_posted_by.append(str(posted_by).replace("(", "").replace(")", "").replace(",", "").replace("'", ""))
-    cm_posted_date.append(str(posted_date).replace("(", "").replace(")", "").replace(",", "").replace("'", ""))
-#print(cm_return)
-#print(len(cm_return))
-cm_length = len(cm_return)
-
-#threats = threats_return, threatsLength = threats_length, cmReturn = cm_return, cmLength = cm_length, cmPostedBy = cm_posted_by, cmPostedDate = cm_posted_date
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -210,4 +153,61 @@ def createQuestion():
 
 @app.route("/forums/<user_id>", methods=["GET", "POST"])
 def forums(user_id):
+    connection = sqlite3.connect('SKMSDB.db')
+
+    #Asset dropdown section
+    asset_cursor = connection.cursor()
+    asset_return = []
+    asset_groups = []
+    asset_query = "select asset_name, asset_group from asset"
+    asset_cursor.execute(asset_query)
+    for asset_name, asset_group in asset_cursor:
+        asset_return.append(str(asset_name).replace("(", "").replace(")", "").replace(",", "").replace("'", ""))
+        asset_groups.append(str(asset_group).replace("(", "").replace(")", "").replace(",", "").replace("'", ""))
+    #print(threats_return)
+    #print(len(threats_return))
+    asset_length = len(asset_return)
+
+    #Vulnerability dropdown section
+    vulnerability_cursor = connection.cursor()
+    vulnerability_return = []
+    vulnerability_groups = []
+    vulnerability_query = "select vulnerability_name, vulnerability_group from vulnerability"
+    vulnerability_cursor.execute(vulnerability_query)
+    for vulnerability_name, vulnerability_group in vulnerability_cursor:
+        vulnerability_return.append(str(vulnerability_name).replace("(", "").replace(")", "").replace(",", "").replace("'", ""))
+        vulnerability_groups.append(str(vulnerability_group).replace("(", "").replace(")", "").replace(",", "").replace("'", ""))
+    #print(threats_return)
+    #print(len(threats_return))
+    vulnerability_length = len(vulnerability_return)
+
+    #Threat blog section
+    threat_cursor = connection.cursor()
+    threats_return = []
+    threats_group = []
+    threats_query = "select threat_name, threat_group from threat"
+    threat_cursor.execute(threats_query)
+    for threat_name, threat_group in threat_cursor:
+        threats_return.append(str(threat_name).replace("(", "").replace(")", "").replace(",", "").replace("'", ""))
+        threats_group.append(str(threat_group).replace("(", "").replace(")", "").replace(",", "").replace("'", ""))
+    #print(threats_return)
+    #print(len(threats_return))
+    threats_length = len(threats_return)
+
+    #Countermeasure blog section
+    counter_measure_cursor = connection.cursor()
+    cm_return = []
+    cm_value = []
+    cm_posted_by = []
+    cm_posted_date = []
+    cm_query = "select countermeasurename, posted_by, posted_date, threatid from countermeasures"
+    counter_measure_cursor.execute(cm_query)
+    for countermeasurename, posted_by, posted_date, threatid in counter_measure_cursor:
+        cm_return.append(str(countermeasurename).replace("(", "").replace(")", "").replace(",", "").replace("'", ""))
+        cm_value.append(str(threatid).replace("(", "").replace(")", "").replace(",", "").replace("'", ""))
+        cm_posted_by.append(str(posted_by).replace("(", "").replace(")", "").replace(",", "").replace("'", ""))
+        cm_posted_date.append(str(posted_date).replace("(", "").replace(")", "").replace(",", "").replace("'", ""))
+    #print(cm_return)
+    #print(len(cm_return))
+    cm_length = len(cm_return)
     return render_template("forums.html", user_id=user_id, threats = threats_return, threatsLength = threats_length, cmReturn = cm_return, cmLength = cm_length, cmPostedBy = cm_posted_by, cmPostedDate = cm_posted_date)
