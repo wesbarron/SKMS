@@ -44,6 +44,7 @@ for threat_name, threat_group in threat_cursor:
 #print(len(threats_return))
 threats_length = len(threats_return)
 
+
 #Countermeasure blog section
 counter_measure_cursor = connection.cursor()
 cm_return = []
@@ -155,11 +156,7 @@ def createAccount():
 def blog():
     if request.method == 'POST':
     
-        #user_name = request.form['user_name']
-        #userEmail = request.form['email']
-        #userPosition = request.form['position']
         vulnerability_value = request.form['vulnerabilityValue']
-        #print(threat_value)
  
     return render_template('blog.html', assets = asset_return, assetLength = asset_length, threatReturn = threats_return, threatLength = threats_length, cmPostedBy = cm_posted_by, cmPostedDate = cm_posted_date, cmValue = cm_value, vulnerability = vulnerability_return, vulnerabilityValue = vulnerability_groups, vulnerabilityLength = vulnerability_length)
 
@@ -218,3 +215,67 @@ def accountReset():
         #print(threat_value)
     
     return render_template('accountReset.html')
+
+@app.route('/userStory.html', methods=['GET', 'POST'])
+def userStory():
+    if request.method == 'POST':
+        
+        connection = sqlite3.connect('SKMSDB.db')
+        cm_cursor = connection.cursor()
+        question_cursor = connection.cursor()
+
+        threat_name = request.form['threatName']
+        
+        cm_list = []
+        question_author = []
+        question_body = []
+        question_date = []
+
+        cm_query = """
+        select cm_name 
+        from cm
+        where cm_threat_group = (select threat_group from threat where threat_name = '"""+threat_name+"""')
+        """
+        cm_cursor.execute(cm_query)
+
+        question_query = """
+        select blog_author, blog_body, blog_date 
+        from blog
+        where blog_threat_group = (select threat_group from threat where threat_name = '"""+threat_name+"""')
+        """
+        cm_cursor.execute(cm_query)
+        question_cursor.execute(question_query)
+
+        for cm_name in cm_cursor:
+            cm_list.append(str(cm_name).replace("(", "").replace(")", "").replace(",", "").replace("'", ""))
+
+        cm_list_length = len(cm_list)
+
+        for blog_author, blog_body, blog_date in question_cursor:
+            question_author.append(str(blog_author).replace("(", "").replace(")", "").replace(",", "").replace("'", ""))
+            question_body.append(str(blog_body).replace("(", "").replace(")", "").replace(",", "").replace("'", ""))
+            question_date.append(str(blog_date).replace("(", "").replace(")", "").replace(",", "").replace("'", ""))
+
+        question_list_length = len(question_body)
+
+    return render_template('userStory.html', threatTitle = threat_name, cmList = cm_list, cmListLength = cm_list_length, questionAuthor = question_author, questionBody = question_body, questionDate = question_date, questionListLength = question_list_length)
+
+@app.route('/question.html', methods=['GET', 'POST'])
+def question():
+    if request.method == 'POST':
+    
+        connection = sqlite3.connect('SKMSDB.db')
+        question_cursor = connection.cursor()
+        question = request.form['question']
+        name = request.form['name']
+        threat = request.form['threat']
+        question_query = """
+        insert into blog(blog_author,blog_body, blog_date, blog_threat_group) values('"""+name+"""', '"""+question+"""', date(), (select threat_group from threat where threat_name = '"""+threat+"""'))
+        """
+        question_cursor.execute(question_query)
+        connection.commit()
+    
+    return render_template('question.html')
+
+
+    

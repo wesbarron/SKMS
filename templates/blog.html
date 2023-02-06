@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/css/dist/mdb5/standard/core.min.css">
     <link rel="stylesheet" id="roboto-subset.css-css" href="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/css/mdb5/fonts/roboto-subset.css?ver=3.9.0-update.5" type="text/css" media="all">
-    <link rel="stylesheet" href="./styles.css">
     <title>Blogs</title>
 </head>
 
@@ -42,12 +41,15 @@
             </div>
             <!-- End of post 1 -->
             {%for i in range(0, threatLength)%}
+            
               <div class="card row-hover pos-relative py-3 px-3 mb-3 border-warning border-top-0 border-right-0 border-bottom-0 rounded-0">
                 <div class="row align-items-center">
                   <div class="col-md-8 mb-3 mb-sm-0">
+                    <form method="POST" action="/userStory.html">
                     <h5>
-                      <a href="#" class="text-primary">{{ threatReturn[i] }}</a>
+                      <button  type="submit" id="threatName" name="threatName" class="text-primary btn-link" style="border:none; background-color:white;" value="{{ threatReturn[i] }}">{{ threatReturn[i] }}</button>
                     </h5>
+                    </form> 
                     <p class="text-sm"><span class="op-6">Posted</span> <a class="text-black" href="#">{{ cmPostedDate[i] }}</a> <span class="op-6">by</span> <a class="text-black" href="#">{{ cmPostedBy[i] }}</a></p>
                     <div class="text-sm op-5"> <a class="text-black mr-2" href="#">#C++</a> <a class="text-black mr-2" href="#">#AppStrap Theme</a> <a class="text-black mr-2" href="#">#Wordpress</a> </div>
                   </div>
@@ -59,21 +61,13 @@
                     </div>
                   </div>
                 </div>
-              </div> 
-              <!-- /End of post 1 -->
-            {%endfor%} -->
+              </div>
             
+              <!-- /End of post 1 -->
+            {%endfor%} --> 
           </div>
         </div>
       </div>
-
-      <script>
-            
-            // let threatValue = document.getElementById("threatOptions").value;
-            // function getThreatValue(){
-            //     threatValue.form.submit();
-            // }
-      </script>
 
 </html>
 
