@@ -1,7 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+{% extends "siteTemplate.html" %}
+{% block style %}
 <style>
 * {
   box-sizing: border-box;
@@ -73,8 +71,9 @@ body {
   }
 }
 </style>
-</head>
-<body>
+{% endblock %}
+
+{% block body %}
 
 <div class="header">
   <h2>{{ threatTitle }}</h2>
@@ -126,10 +125,13 @@ body {
 <div class="footer">
   <h2>Footer</h2>
 </div>
+{% endblock %}
+
+{% block script %}
 <script>
     function postQuestion(){
         let question_value = document.getElementById("question").value;
     }
 </script>
-</body>
-</html>
+
+{% endblock %}

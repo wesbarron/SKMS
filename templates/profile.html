@@ -1,35 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/css/dist/mdb5/standard/core.min.css">
-    <link rel="stylesheet" id="roboto-subset.css-css" href="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/css/mdb5/fonts/roboto-subset.css?ver=3.9.0-update.5" type="text/css" media="all">
-    <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <title>User Profile</title>
-</head>
-<!-- <body>
-    <div name="user_profile" id="user_profile">
-        <h1>User Profile</h1>
-        <br>
-        <label>First Name: </label><strong name="first_name" type="name" value="{{ first_name }}"> {{ first_name }} </strong>
-        <br>
-        <label>Last Name: </label><strong name="last_name" type="name" value="{{ last_name }}"> {{ last_name }} </strong>
-        <br>
-        <label>User Name: </label><strong name="user_name" type="name" value="{{ user_name }}"> {{ user_name }} </strong>
-        <br>
-        <label>Email: </label><strong name="email" type="name" value="{{ email }}"> {{ email }} </strong>
-    </div>
-</body> -->
-<body>
-<!-- <form action="/blog.html"> -->
-<section class="vh-100" style="background-color: #f4f5f7;">
-    <div class="container py-5 h-50">
+{% extends "siteTemplate.html" %}
+{% block head %}
+<title>User Profile</title>
+{% endblock %}
+
+{% block body %}
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col col-lg-8 mb-4 mb-lg-0">
           <div class="card mb-3" style="border-radius: .5rem;">
@@ -116,11 +90,7 @@
           </div>
         </div>
       </div>
-    </div>
-  </section>
-  
- 
-          </div>
+      <div>
           <!-- Sidebar content -->
           <!-- <div class="col-lg-3 mb-4 mb-lg-0 px-lg-0 mt-lg-0">
             <div style="visibility: hidden; display: none; width: 285px; height: 801px; margin: 0px; float: right; position: relative; inset: 85px auto auto;"></div><div data-settings="{&quot;parent&quot;:&quot;#content&quot;,&quot;mind&quot;:&quot;#header&quot;,&quot;top&quot;:10,&quot;breakpoint&quot;:992}" data-toggle="sticky" class="sticky" style="top: 85px;"><div class="sticky-inner">
@@ -175,9 +145,10 @@
               </div>
             </div></div>
           </div> -->
-        </div>
       </div>
-</body>
+{% endblock %}
+
+{% block script %}
       <script>
 
         function setName(){
@@ -189,7 +160,6 @@
         
       </script>
 
-
-</html>
+{% endblock %}
 
 
